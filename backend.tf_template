@@ -2,13 +2,14 @@
 # (c) 2021 - CloudopsWorks OÜ - https://docs.cloudops.works/
 #
 terraform {
+  # Sample S3 backend with encryption
   backend "s3" {
-    key                  = "projects/azure/environments/finconecta-team/staging/terraform.tfstate"
-    bucket               = "4wrd-terraform-state"
+    key                  = "terraform.tfstate"
+    bucket               = "terraform-state-bucket"
     region               = "us-east-1"
     workspace_key_prefix = "workspaces"
     encrypt              = true
-    kms_key_id           = "bf4ed7e2-cbb8-4e71-86c0-6eaf03febd0e"
-    dynamodb_table       = "4wrd_terraform_state"
+    kms_key_id           = "<KMS KEY ID>"
+    dynamodb_table       = "terraform_state_table"
   }
 }
