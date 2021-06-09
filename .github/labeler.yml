@@ -1,0 +1,11 @@
+release:
+- ./*
+
+size-XS:
+- any: [ '*-version.tfvars' ]
+
+size-S:
+- any: [ '*-module.tf' ]
+
+size-XL:
+- any: [ '**/*.tf', '!*-version.tfvars', '!*-module.tf' ]

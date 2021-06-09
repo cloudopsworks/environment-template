@@ -1,0 +1,16 @@
+##
+# (c) 2021 - CloudopsWorks OÜ - https://docs.cloudops.works/
+#
+module "forward-streaming" {
+  source         = "./modules/helm-install-azure"
+  resource_group = var.resource_group
+  cluster_name   = var.cluster_name
+  helm_repo      = var.default_helm_repo
+  oci_repo       = true
+  namespace      = var.default_namespace
+
+  release_name  = "<RELEASE-NAME>"
+  chart_name    = "<CHART-NAME-ON-REPO"
+  chart_version = "<VERSION>"
+}
+
