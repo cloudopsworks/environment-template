@@ -10,5 +10,5 @@ automatic: false
 # Optional only needed if not automatic 
 # reviewers:
 #   - berahac
-#   - fire115
-#   - finconecta
+#   - elasticguru-bot
+#   - cloudopswork-dev

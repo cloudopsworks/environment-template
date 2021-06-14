@@ -81,7 +81,7 @@ jobs:
           path: ./.plans/plan.out
           if-no-files-found: error
 
-      - uses: actions/github-script@0.9.0
+      - uses: actions/github-script@v4
         if: github.event_name == 'pull_request'
         env:
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
@@ -129,4 +129,35 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               labels: ['approved', 'automatic-environment']
+            })
+      
+      - name: Read reviewers from file
+        id: reviewers
+        if: ${{ steps.check_automatic.outputs.autoapprove != 'true' }}
+        run: |
+          count=$(yq e '.requiredReviewers' OWNERS)
+          reviewers_as_json=$(yq e -j -I=0 '.reviewers' OWNERS)
+          echo "::set-output name=count::$count"
+          echo "::set-output name=as_json::$reviewers_as_json"
+
+      - uses: actions/github-script@v4
+        if: ${{ steps.check_automatic.outputs.autoapprove != 'true' }}
+        with:
+          github-token: ${{secrets.BOT_TOKEN}}
+          script: |
+            const reviewers_json=JSON.parse('${{ steps.reviewers.outputs.as_json }}')
+            const reviewers_count=${{ steps.reviewers.outputs.count }}
+
+            github.pulls.requestReviewers({
+              pull_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              reviewers: reviewers_json
+            })
+
+            github.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['approval-required','review-required']
             })
