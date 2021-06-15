@@ -1,6 +1,11 @@
 ##
 # (c) 2021 - CloudopsWorks OÜ - https://docs.cloudops.works/
 #
+
+locals {
+  values_file      = "values/${var.release_name}-values.yaml"
+  values_file_sha1 = filesha1(local.values_file)
+}
 data "kubernetes_namespace" "release_ns" {
   metadata {
     name = var.namespace
@@ -17,7 +22,7 @@ resource "helm_release" "app_release" {
   wait       = false
 
   values = [
-    file("values/${var.release_name}-values.yaml")
+    file(local.values_file)
   ]
 
 }
@@ -26,7 +31,8 @@ resource "null_resource" "helm_init_oci" {
   count = var.oci_repo ? 1 : 0
 
   triggers = {
-    always_run = "${timestamp()}"
+    always_run = local.values_file_sha1
+    on_version = var.chart_version
   }
 
 
@@ -56,7 +62,7 @@ resource "helm_release" "app_release_oci" {
   wait      = false
 
   values = [
-    file("values/${var.release_name}-values.yaml")
+    file(local.values_file)
   ]
 
 }
