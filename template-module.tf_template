@@ -1,7 +1,7 @@
 ##
 # (c) 2021 - CloudopsWorks OÜ - https://docs.cloudops.works/
 #
-module "forward-streaming" {
+module "MODULE_NAME" {
   source         = "./modules/helm-install-azure"
   resource_group = var.resource_group
   cluster_name   = var.cluster_name
