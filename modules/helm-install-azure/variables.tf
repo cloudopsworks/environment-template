@@ -35,3 +35,8 @@ variable "secrets" {
   type    = list(any)
   default = []
 }
+
+variable "vars" {
+  type    = map(string)
+  default = {}
+}

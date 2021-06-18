@@ -40,3 +40,6 @@ VERSION
 # Ignore plans folder
 
 .plans/**
+
+# Ignore MAC files
+**/.DS_Store

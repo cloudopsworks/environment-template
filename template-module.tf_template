@@ -12,5 +12,13 @@ module "MODULE_NAME" {
   release_name  = "<RELEASE-NAME>"
   chart_name    = "<CHART-NAME-ON-REPO"
   chart_version = "<VERSION>"
+
+  # Optional variable injection other than standard values/MODULE_NAME-values.yaml
+  #
+  # vars = {
+  #   "var"          = "DATA"
+  #   "varfile"      = file("textfile.txt)
+  #   "encoded file" = filebas64("binaryfile.bin")
+  # }
 }
 

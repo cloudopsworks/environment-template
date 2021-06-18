@@ -3,8 +3,12 @@
 #
 
 locals {
-  values_file      = "values/${var.release_name}-values.yaml"
-  values_file_sha1 = filesha1(local.values_file)
+  values_file           = "values/${var.release_name}-values.yaml"
+  values_file_sha1      = filesha1(local.values_file)
+  vars_values_sha1_list = [ for item_key, item_value in var.vars :
+    format("%s-%s", sha1(item_key), sha1(item_value))
+  ]
+  vars_values_sha1      = join("|", local.vars_values_sha1_list)
 }
 data "kubernetes_namespace" "release_ns" {
   metadata {
@@ -25,6 +29,15 @@ resource "helm_release" "app_release" {
     file(local.values_file)
   ]
 
+  dynamic "set_sensitive" {
+    for_each = var.vars
+
+    content {
+      name  = set_sensitive.key
+      value = replace(set_sensitive.value, ",", "\\,")
+      type  = "string"
+    }
+  }
 }
 
 resource "null_resource" "helm_init_oci" {
@@ -33,6 +46,7 @@ resource "null_resource" "helm_init_oci" {
   triggers = {
     always_run = local.values_file_sha1
     on_version = var.chart_version
+    on_vars    = local.vars_values_sha1
   }
 
 
@@ -65,4 +79,13 @@ resource "helm_release" "app_release_oci" {
     file(local.values_file)
   ]
 
+  dynamic "set_sensitive" {
+    for_each = var.vars
+
+    content {
+      name  = set_sensitive.key
+      value = replace(set_sensitive.value, ",", "\\,")
+      type  = "string"
+    }
+  }
 }
