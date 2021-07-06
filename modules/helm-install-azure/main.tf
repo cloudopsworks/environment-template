@@ -3,12 +3,12 @@
 #
 
 locals {
-  values_file           = "values/${var.release_name}-values.yaml"
-  values_file_sha1      = filesha1(local.values_file)
-  vars_values_sha1_list = [ for item_key, item_value in var.vars :
+  values_file      = "values/${var.release_name}-values.yaml"
+  values_file_sha1 = filesha1(local.values_file)
+  vars_values_sha1_list = [for item_key, item_value in var.vars :
     format("%s-%s", sha1(item_key), sha1(item_value))
   ]
-  vars_values_sha1      = join("|", local.vars_values_sha1_list)
+  vars_values_sha1 = join("|", local.vars_values_sha1_list)
 }
 data "kubernetes_namespace" "release_ns" {
   metadata {
