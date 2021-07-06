@@ -16,3 +16,8 @@ variable "subscription_id" {
 variable "tenant_id" {
   type = string
 }
+
+variable "azure_ad_rbac_enabled" {
+  type    = bool
+  default = false
+}
