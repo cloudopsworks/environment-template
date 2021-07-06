@@ -8,3 +8,8 @@ variable "resource_group" {
 variable "cluster_name" {
   type = string
 }
+
+variable "ad_rbac" {
+  type    = bool
+  default = false
+}
