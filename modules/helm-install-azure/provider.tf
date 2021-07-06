@@ -11,7 +11,7 @@ data "azurerm_kubernetes_cluster" "aks_cluster" {
 }
 
 locals {
-  kube_config = var.ad_rbac ? data.azurerm_kubernetes_cluster.aks_cluster.kube_adming_config.0 : data.azurerm_kubernetes_cluster.aks_cluster.kube_config.0
+  kube_config = var.ad_rbac ? data.azurerm_kubernetes_cluster.aks_cluster.kube_admin_config.0 : data.azurerm_kubernetes_cluster.aks_cluster.kube_config.0
 }
 
 provider "kubernetes" {
