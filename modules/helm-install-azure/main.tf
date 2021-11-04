@@ -3,12 +3,12 @@
 #
 
 locals {
-  values_file      = "values/${var.release_name}-values.yaml"
-  values_file_sha1 = filesha1(local.values_file)
-  vars_values_sha1_list = [for item_key, item_value in var.vars :
+  values_file           = "values/${var.release_name}-values.yaml"
+  values_file_sha1      = filesha1(local.values_file)
+  vars_values_sha1_list = [ for item_key, item_value in var.vars :
     format("%s-%s", sha1(item_key), sha1(item_value))
   ]
-  vars_values_sha1 = join("|", local.vars_values_sha1_list)
+  vars_values_sha1      = join("|", local.vars_values_sha1_list)
 }
 data "kubernetes_namespace" "release_ns" {
   metadata {
@@ -55,12 +55,9 @@ resource "null_resource" "helm_init_oci" {
   }
 
   provisioner "local-exec" {
-    command = "helm chart pull ${var.helm_repo}/${var.chart_name}:${var.chart_version}"
+    command = "helm pull oci://${var.helm_repo}/${var.chart_name} --version ${var.chart_version} --destination ./.release --untar --untardir ${var.release_name}"
   }
 
-  provisioner "local-exec" {
-    command = "helm chart export ${var.helm_repo}/${var.chart_name}:${var.chart_version} --destination ./.release"
-  }
 }
 
 resource "helm_release" "app_release_oci" {
@@ -70,7 +67,7 @@ resource "helm_release" "app_release_oci" {
 
   count     = var.oci_repo ? 1 : 0
   name      = var.release_name
-  chart     = "./.release/${var.chart_name}"
+  chart     = "./.release/${var.release_name}/${var.chart_name}/"
   namespace = data.kubernetes_namespace.release_ns.metadata.0.name
   version   = var.chart_version
   wait      = false
