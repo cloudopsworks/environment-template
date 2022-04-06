@@ -2,7 +2,7 @@
 #            On GitHub: https://github.com/cloudopsworks
 #            Distributed Under Apache v2.0 License
 #
-name: Forward Environment Deploy
+name: Environment Deploy
 on:
   push:
     branches:

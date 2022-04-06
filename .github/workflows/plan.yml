@@ -3,7 +3,7 @@
 #            On GitHub: https://github.com/cloudopsworks
 #            Distributed Under Apache v2.0 License
 #
-name: Forward Environment Plan on Pull request
+name: Environment Plan on Pull request
 on:
   pull_request:
     
