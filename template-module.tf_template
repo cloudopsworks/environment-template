@@ -4,7 +4,8 @@
 #            Distributed Under Apache v2.0 License
 #
 module "MODULE_NAME" {
-  source         = "./modules/helm-install-azure"
+  source         = "cloudopsworks/aks-helm/azure"
+  version        = "1.0.0"
   resource_group = var.resource_group
   cluster_name   = var.cluster_name
   helm_repo      = var.default_helm_repo
