@@ -5,7 +5,7 @@
 #
 module "MODULE_NAME" {
   source         = "cloudopsworks/aks-helm/azure"
-  version        = "1.0.0"
+  version        = "1.0.1"
   resource_group = var.resource_group
   cluster_name   = var.cluster_name
   helm_repo      = var.default_helm_repo
@@ -24,5 +24,8 @@ module "MODULE_NAME" {
   #   "varfile"      = file("textfile.txt)
   #   "encoded file" = filebas64("binaryfile.bin")
   # }
+  var_files = [
+    "default-requirements.yaml",
+  ]
 }
 
