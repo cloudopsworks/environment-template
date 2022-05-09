@@ -1,11 +1,11 @@
 # values we use from the `jx-requirements.yml` file if we are using helmfile and helm 3
 jxRequirements:
   ingress:
-    domain: "4wrd.tech"
+    domain: ""
     externalDNS: true
     namespaceSubDomain: -jx.
     tls:
-      email: "admin@finconecta.com"
+      email: ""
       enabled: true
       production: true
 
