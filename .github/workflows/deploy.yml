@@ -13,6 +13,9 @@ on:
 
 jobs:
   deploy:
+    concurrency:
+      group: deploy-promotion
+      cancel-in-progress: false
     runs-on: [ self-hosted, azure ]
     steps:
       # Get the owner repo
