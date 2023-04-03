@@ -34,7 +34,7 @@ jobs:
 
       - uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: 1.1.7
+          terraform_version: 1.3.3
 
       - uses: azure/setup-helm@v3
 
@@ -89,7 +89,7 @@ jobs:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
         run: |
           VERSION=$(cat VERSION)
-          git config --global user.name "${{ secrets.BOT_USER }}"
-          git config --global user.email "${{ secrets.BOT_EMAIL }}"
+          git config --global user.name "${{ vars.BOT_USER }}"
+          git config --global user.email "${{ vars.BOT_EMAIL }}"
           git tag -fa v$VERSION -m "Environment Release v$VERSION"
           git push origin v$VERSION
